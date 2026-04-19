@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCane - Empowering Independence | Electronic Cane for Visually Impaired</title>
+    <meta name="description" content="SmartCane: Solar-powered electronic cane that detects obstacles and alerts visually impaired users with sound. Safe, affordable, independent mobility.">
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --secondary-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --accent-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-bg: #0a0f1e;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #b8bcc8;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--dark-bg);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(ellipse at top, #1a237e 0%, var(--dark-bg) 70%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(79,172,254,0.1)"><animate attributeName="r" values="2;3;2" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="rgba(0,242,254,0.1)"><animate attributeName="r" values="1.5;2.5;1.5" dur="4s" repeatCount="indefinite"/></circle></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.6);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1.2rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* 3D Cane Visualization */
+        .cane-demo {
+            perspective: 1000px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cane-3d {
+            width: 120px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: caneFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes caneFloat {
+            0%, 100% { transform: rotateX(0deg) rotateY(0deg) translateY(0px); }
+            25% { transform: rotateX(5deg) rotateY(-5deg) translateY(-10px); }
+            75% { transform: rotateX(-5deg) rotateY(5deg) translateY(-10px); }
+        }
+
+        .cane-body {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(145deg, #e0e0e0, #ffffff);
+            border-radius: 60px 60px 20px 20px;
+            position: absolute;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.3),
+                inset 0 10px 20px rgba(255,255,255,0.5);
+        }
+
+        .cane-handle {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            border-radius: 40px;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .solar-panel {
+            width: 100px;
+            height: 40px;
+            background: var(--secondary-gradient);
+            border-radius: 10px;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+            animation: solarPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes solarPulse {
+            from { box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4); }
+            to { box-shadow: 0 5px 25px rgba(67, 233, 123, 0.7); }
+        }
+
+        .sensor {
+            width: 25px;
+            height: 25px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            box-shadow: 0 0 20px rgba(250, 112, 154, 0.6);
+            animation: sensorBlink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sensorBlink {
+            0%, 80%, 100% { opacity: 1; transform: scale(1); }
+            90% { opacity: 0.3; transform: scale(1.2); }
+        }
+
+        .buzzer {
+            width: 20px;
+            height: 20px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            position: absolute;
+            top: 80px;
+            right: 15px;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+            animation: buzzerAlert 3s ease-in-out infinite;
+        }
+
+        @keyframes buzzerAlert {
+            0%, 70%, 100% { 
+                background: #ff6b6b;
+                box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+            }
+            80% { 
+                background: #ffeb3b;
+                box-shadow: 0 0 25px rgba(255, 235, 59, 1);
+                transform: scale(1.3);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            background: linear-gradient(135deg, rgba(10,15,30,0.8), rgba(20,30,60,0.8));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Components Section */
+        .components {
+            padding: 120px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .component-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .component-visual {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 20px;
+            position: relative;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--primary-gradient);
+            text-align: center;
+            color: #0a0f1e;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 3rem 0 1.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+            
+            .cane-demo {
+                height: 300px;
+            }
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">SmartCane</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#components">Tech</a></li>
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text reveal">
+                    <h1>Safe Steps for<br>Every Journey</h1>
+                    <p>Solar-powered electronic cane that detects obstacles in real-time and alerts visually impaired users with intelligent sound warnings. Independence redefined.</p>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-primary">Get Your SmartCane</a>
+                        <a href="#components" class="cta-secondary">See How It Works</a>
+                    </div>
+                </div>
+                <div class="cane-demo reveal">
+                    <div class="cane-3d">
+                        <div class="cane-body"></div>
+                        <div class="cane-handle"></div>
+                        <div class="solar-panel">☀️</div>
+                        <div class="sensor">📷</div>
+                        <div class="buzzer">🔊</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="            <div class="section-header reveal">
+                <h2 class="section-title">Smart Technology for Real Independence</h2>
+                <p class="section-subtitle">Engineered with cutting-edge sensors and renewable energy for unmatched safety and reliability</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Obstacle Detection</h3>
+                    <p>Photoresistor sensors detect light changes up to 2 meters ahead, alerting you before danger strikes.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">☀️</div>
+                    <h3>Solar Powered</h3>
+                    <p>Never charge, never worry. Integrated solar panel provides unlimited clean energy anywhere, anytime.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🔊</div>
+                    <h3>Smart Alerts</h3>
+                    <p>Intelligent buzzer system with variable tones - short beeps for small obstacles, urgent alarms for major hazards.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>24/7 Reliability</h3>
+                    <p>High-capacity battery stores solar energy for continuous operation even during cloudy days or indoors.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Innovation</h3>
+                    <p>High-tech safety at fraction of the cost. Simple components = maximum impact, minimum price.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">♿</div>
+                    <h3>Universal Design</h3>
+                    <p>Lightweight, ergonomic, adjustable. Comfortable for all ages and perfect companion for daily adventures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="components" class="components">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Simple. Smart. Sustainable.</h2>
+                <p class="section-subtitle">Built with accessible components for maximum reliability and affordability</p>
+            </div>
+            <div class="components-grid">
+                <div class="component-card reveal">
+                    <div class="component-visual">
+                        <div style="font-size: 3rem;">☀️</div>
+                    </div>
+                    <h3>Solar Panel</h3>
+                    <p>Generates clean energy from sunlight, powering the entire system sustainably</p>
+                </div>
+                <div class="component-card reveal">
+                    <div class="component-visual">
+                        <div style="font-size: 3rem;">🔋</div>
+                    </div>
+                    <h3>Lithium Battery</h3>
+                    <p>High-capacity storage ensures 24/7 operation even without sunlight</p>
+                </div>
+                <div class="component-card reveal">
+                    <div class="component-visual">
+                        <div style="font-size: 3rem;">📷</div>
+                    </div>
+                    <h3>Photoresistor</h3>
+                    <p>Light-sensitive sensor detects obstacles by measuring sudden light changes</p>
+                </div>
+                <div class="component-card reveal">
+                    <div class="component-visual">
+                        <div style="font-size: 3rem;">🔊</div>
+                    </div>
+                    <h3>Smart Buzzer</h3>
+                    <p>Audio alerts with intelligent volume and frequency patterns</p>
+                </div>
+                <div class="component-card reveal">
+                    <div class="component-visual">
+                        <div style="font-size: 3rem;">🔌</div>
+                    </div>
+                    <h3>Wiring System</h3>
+                    <p>Reliable connections ensure flawless sensor-to-alert communication</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title" style="background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Real Impact, Real Lives</h2>
+                <p class="section-subtitle">Transforming independence for visually impaired communities worldwide</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item reveal">
+                    <span class="stat-number">95%</span>
+                    <div>Accident Reduction</div>
+                </div>
+                <div class="stat-item reveal">
+                    <span class="stat-number">0₵</span>
+                    <div>Energy Cost</div>
+                </div>
+                <div class="stat-item reveal">
+                    <span class="stat-number">24/7</span>
+                    <div>Active Protection</div>
+                </div>
+                <div class="stat-item reveal">
+                    <span class="stat-number">$25</span>
+                    <div>Production Cost</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container reveal">
+            <h2>Ready to Walk Confidently?</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9;">Join the independence revolution. First 100 units at launch price.</p>
+            <div class="cta-buttons" style="justify-content: center;">
+                <a href="#contact" class="cta-primary" style="background: rgba(10,15,30,0.9); color: white; border: none;">Pre-Order Now</a>
+                <a href="#components" class="cta-secondary" style="background: white; color: #0a0f1e; border: none;">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="features" style="padding: 80px 0;">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Let's Make Mobility Accessible</h2>
+                <p class="section-subtitle">Partner with us to bring SmartCane to communities in need</p>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto;">
+                <div class="reveal">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Get Involved</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 1.1rem;">
+                        <div><strong>📧 Email:</strong> samirrim2011@gmail.com</div>
+                        <div><strong>📱 WhatsApp:</strong> +212694025035</div>
+                        <div><strong>🏢 HQ:</strong> SIDI IFNI. GUELMIM</div>
+                        <div><strong>🌐 Follow:</strong> @SmartCaneOfficial</div>
+                    </div>
+                </div>
+                <form style="background: var(--card-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1);" class="reveal">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <input type="text" placeholder="Full Name" style="padding: 1rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 1rem;" required>
+                        <input type="email" placeholder="Email Address" style="padding: 1rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 1rem;" required>
+                    </div>
+                    <textarea rows="4" placeholder="Tell us how we can help..." style="width: 100%; padding: 1rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 1rem; margin-bottom: 1.5rem; resize: vertical;" required></textarea>
+                    <button type="submit" class="cta-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SmartCane. Empowering independence through innovative technology. Making every step safer.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">Social Business | Clean Energy | Accessibility for All</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll reveal animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form handling
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simulate form submission
+            const button = this.querySelector('button');
+            const originalText = button.textContent;
+            button.textContent = 'Thank you! 🎉';
+            button.style.background = 'var(--secondary-gradient)';
+            setTimeout(() => {
+                this.reset();
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 3000);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
